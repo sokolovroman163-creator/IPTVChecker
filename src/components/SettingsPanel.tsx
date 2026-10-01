@@ -12,6 +12,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fixPreferencesFrom } from "../lib/dispatcharr";
 import { formatBytes } from "../lib/format";
+import { getLanguage, setLanguage, type Language } from "../lib/localization";
 import {
   clampSampleClipDuration,
   MAX_SAMPLE_CLIP_DURATION_SECS,
@@ -172,6 +173,7 @@ function SegmentedControl<T extends string>({
 export function SettingsPanel({ settings, onSave }: SettingsPanelProps) {
   const platform = useAppStore((s) => s.platform);
   const [activeTab, setActiveTab] = useState<SettingsTab>("general");
+  const [interfaceLanguage, setInterfaceLanguage] = useState<Language>(() => getLanguage());
   const [draft, setDraft] = useState<AppSettings>(settings);
   const [presetCollection, setPresetCollection] = useState<ScanPresetCollection>({
     presets: [],
@@ -587,6 +589,26 @@ export function SettingsPanel({ settings, onSave }: SettingsPanelProps) {
                     { value: "dark", label: "Dark" },
                   ]}
                   onChange={(value) => updateSetting("theme", value, { immediate: true })}
+                />
+              </div>
+
+              <div className={rowClass}>
+                <div>
+                  <p className="text-[13px] font-medium">Language</p>
+                  <p className="text-[11px] text-text-tertiary mt-0.5">
+                    Choose interface language.
+                  </p>
+                </div>
+                <SegmentedControl
+                  value={interfaceLanguage}
+                  options={[
+                    { value: "ru", label: "Russian" },
+                    { value: "en", label: "English" },
+                  ]}
+                  onChange={(value) => {
+                    setInterfaceLanguage(value);
+                    setLanguage(value);
+                  }}
                 />
               </div>
 

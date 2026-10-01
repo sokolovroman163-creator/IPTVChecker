@@ -4,6 +4,7 @@ import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LogWindow } from "./LogWindow";
 import { startMainLogBridge } from "./lib/logBridge";
+import { installLocalization } from "./lib/localization";
 import { SettingsWindow } from "./SettingsWindow";
 import "./index.css";
 
@@ -19,6 +20,7 @@ const platformHint = navigator.platform.toUpperCase().includes("MAC")
     : "linux";
 document.documentElement.dataset.platform = platformHint;
 document.documentElement.dataset.theme = "system";
+installLocalization();
 
 const windowParam = new URLSearchParams(window.location.search).get("window");
 const isSettingsWindow = windowParam === "settings";
